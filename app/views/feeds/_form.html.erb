@@ -1,0 +1,12 @@
+<div>
+  <% form.fields_for :feed do |feed_form|%>
+    <div>
+      <%= feed_form.label :url, 'Rss Feed' %>
+      <%= feed_form.text_field :url %>
+    </div>
+    <div>
+      <%= feed_form.label :description, 'Rss Feed' %>
+      <%= feed_form.text_area :description, size: '70x2' %>
+    </div>
+  <% end %>
+</div>

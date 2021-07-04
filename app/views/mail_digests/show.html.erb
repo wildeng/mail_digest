@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+<div>
+  <h2><%= @mail_digest.title %></h2>
+  <p><%= @mail_digest.description %></p>
+</div>
+<div>
+  <% @mail_digest.feeds&.each do |feed| %>
+    <p><%= feed.description %></p>
+    <h4><%= feed.url %></h4>
+  <% end %>
+</div>
+<%= link_to 'Edit', edit_mail_digest_path(@mail_digest) %> |
+<%= link_to 'Back', mail_digests_path %>

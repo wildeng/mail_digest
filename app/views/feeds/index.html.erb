@@ -1,0 +1,8 @@
+<%= link_to :new, new_feed_path %>
+
+<% @feeds.each do |feed| %>
+  <div>
+    <h3><%= feed.url%></h3>
+    <p><%= feed.description%></p>
+  </div>
+<% end %>

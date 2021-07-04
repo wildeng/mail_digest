@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mail Digests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mail_digests.each do |mail_digest| %>
+      <tr>
+        <td><%= mail_digest.title %></td>
+        <td><%= link_to 'Show', mail_digest %></td>
+        <td><%= link_to 'Edit', edit_mail_digest_path(mail_digest) %></td>
+        <td><%= link_to 'Destroy', mail_digest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mail Digest', new_mail_digest_path %>

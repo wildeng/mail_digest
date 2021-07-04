@@ -1,0 +1,40 @@
+<%= form_with(model: mail_digest) do |form| %>
+  <% if mail_digest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mail_digest.errors.count, "error") %> prohibited this mail_digest from being saved:</h2>
+
+      <ul>
+        <% mail_digest.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :title, 'Title' %>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :description, 'Description' %>
+    <%= form.text_area :description, size: '70x5' %>
+  </div>
+  <h4>RSS Feeds</h4>
+  <div data-controller="rssfeed">
+    <template data-target="rssfeed.template">
+      <%= form.fields_for :feeds, Feed.new, child_index: 'NEW_RECORD' do |feed| %>
+        <%= render "feed_form", form: feed %>
+      <% end %>
+    </template>
+
+    <%= form.fields_for :feeds do |feed| %>
+      <%= render "feed_form", form: feed %>
+    <% end %>
+
+    <div class="mb-3" data-target="rssfeed.links">
+      <%= link_to "Add Feed", "#", class: "btn btn-outline-primary", data: { action: "rssfeed#add_association" } %>
+    </div>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
