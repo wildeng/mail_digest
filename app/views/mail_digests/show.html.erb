@@ -5,8 +5,19 @@
 </div>
 <div>
   <% @mail_digest.feeds&.each do |feed| %>
-    <p><%= feed.description %></p>
-    <h4><%= feed.url %></h4>
+    <h3><%= feed.title %></h3>
+    <h4><%= feed.url unless feed.feed_articles %></h4>
+    <div>
+      <% feed.feed_articles.order(pub_date: :desc).limit(5)&.each do |article| %>
+        <div>
+          <hr></hr>
+          <div><%= article.title.html_safe %></div>
+          <p><%= article.description.html_safe %></p>
+          <a href="<%= article.link.html_safe %>" target="_blank"><%= %></a>
+          <div><%=l article.pub_date, format: :long %></div>
+        </div>  
+      <% end %>
+    </div>
   <% end %>
 </div>
 <%= link_to 'Edit', edit_mail_digest_path(@mail_digest) %> |

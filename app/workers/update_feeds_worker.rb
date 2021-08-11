@@ -12,18 +12,20 @@ class UpdateFeedsWorker
       update_feed(feed_id)
     else
       Feed.all.each do |feed|
-        update_feed(feed)
+        update_feed(feed_id)
       end
     end
   end
 
-  def update_feed(feed)
+  def update_feed(feed_id)
+    feed = Feed.find(feed_id)
+    return unless feed
     content = URI.open(feed.url).read
     entries = Feedjira.parse(content).entries
     entries.each do |item|
       checksum = Digest::MD5.hexdigest(Marshal::dump(item))
       next unless FeedArticle.where(hash_check: checksum).empty?
-      article = FeedArticle.new(feed_id: feed_id)
+      article = FeedArticle.new(feed_id: feed.id)
       article.link = item.url
       article.pub_date = item.published
       article.hash_check = checksum

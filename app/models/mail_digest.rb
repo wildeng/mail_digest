@@ -1,6 +1,9 @@
 class MailDigest < ApplicationRecord
   belongs_to :user
   has_many :feeds
-
-  accepts_nested_attributes_for :feeds, reject_if: :all_blank, allow_destroy: true
+  
+  validates :title, presence: true
+  validates :user, presence: true
+  accepts_nested_attributes_for :feeds, reject_if: lambda { |attributes| attributes['url'].blank? },
+    allow_destroy: true
 end

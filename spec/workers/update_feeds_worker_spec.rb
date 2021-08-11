@@ -1,8 +1,11 @@
 require 'rails_helper'
-require 'sidekiq'
-require 'sidekiq/test'
-require 'sidekiq/scheduler'
+Sidekiq::Testing.fake!
 
 RSpec.describe UpdateFeedsWorker, type: :worker do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'when enqueued' do
+    it "is the default queue" do
+      described_class.perform_async
+      assert_equal "default", described_class.queue
+    end
+  end
 end

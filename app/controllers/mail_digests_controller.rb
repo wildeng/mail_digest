@@ -9,6 +9,7 @@ class MailDigestsController < ApplicationController
 
   # GET /mail_digests/1 or /mail_digests/1.json
   def show
+    @mail_digest = current_user.mail_digests.find(params[:id])
   end
 
   # GET /mail_digests/new
@@ -72,6 +73,6 @@ class MailDigestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def mail_digest_params
-      params.require(:mail_digest).permit(:title, :description, feeds_attributes: [:id, :url, :description, :_destroy])
+      params.require(:mail_digest).permit(:title, :description, feeds_attributes: [:id, :url, :title, :_destroy])
     end
 end
