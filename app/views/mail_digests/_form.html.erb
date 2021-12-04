@@ -1,4 +1,4 @@
-<%= form_with(model: mail_digest) do |form| %>
+<%= form_with(model: mail_digest, class: 'form-digest') do |form| %>
   <% if mail_digest.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(mail_digest.errors.count, "error") %> prohibited this mail_digest from being saved:</h2>
@@ -10,13 +10,13 @@
       </ul>
     </div>
   <% end %>
-  <div>
+  <div class="form-row">
     <%= form.label :title, 'Title' %>
     <%= form.text_field :title %>
   </div>
-  <div>
+  <div class="form-row">
     <%= form.label :description, 'Description' %>
-    <%= form.text_area :description, size: '70x5' %>
+    <%= form.text_area :description %>
   </div>
   <h4>RSS Feeds</h4>
   <div data-controller="rssfeed">
@@ -30,11 +30,11 @@
       <%= render "feed_form", form: feed %>
     <% end %>
 
-    <div class="mb-3" data-target="rssfeed.links">
-      <%= link_to "Add Feed", "#", class: "btn btn-outline-primary", data: { action: "rssfeed#add_association" } %>
+    <div class="form-row" data-target="rssfeed.links">
+      <%= link_to "Add Feed", "#", class: "add-feed", data: { action: "rssfeed#add_association" } %>
     </div>
   </div>
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-submit">
+    <%= form.submit 'save', class: 'submit-form' %>
   </div>
 <% end %>

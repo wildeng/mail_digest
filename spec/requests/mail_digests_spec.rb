@@ -16,13 +16,25 @@ RSpec.describe "/mail_digests", type: :request do
   
   # MailDigest. As you add validations to MailDigest, be sure to
   # adjust the attributes here as well.
+  let(:user) { create(:user) }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      title: 'test digest',
+      description: 'dummy test',
+      update_frequency: 1,
+      user: user
+    }
   }
 
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
   }
+
+  before(:each) do
+    user.confirm
+    login_user user 
+  end
 
   describe "GET /index" do
     it "renders a successful response" do

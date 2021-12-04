@@ -5,7 +5,7 @@ RSpec.describe MailDigest, type: :model do
     let(:user) { create(:user) }
     describe "and is logged in" do
       before do
-        user.confirm      
+        user.confirm
       end
 
       it 'creates a mail digest' do

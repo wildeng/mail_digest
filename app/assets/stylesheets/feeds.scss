@@ -1,3 +1,46 @@
 // Place all the styles related to the feeds controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+/* Element | http://localhost:3000/mail_digests/new */
+
+.form-digest {
+  display: flex;
+  flex-direction: column;
+}
+.form-submit,
+.form-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: .5em;
+  margin-right: 2em;
+}
+.form-row > label {
+  padding: .5em 1em .5em 0;
+  flex: 1;
+}
+.form-row > label {
+  padding: .5em 1em .5em 0;
+  flex: 1;
+}
+.form-row > input {
+  flex: 2;
+}
+
+.form-row > textarea {
+  flex: 2;
+  min-height: 10em;
+  resize: none;
+}
+.submit-form {
+  background: gray;
+  color: white;
+  border: 0;
+  padding: .5em;
+}
+.remove-feed {
+  color: red;
+}
+.add-feed {
+  color: blue;
+}
