@@ -1,0 +1,45 @@
+html>
+   
+   <head>
+      <meta content = 'text/html; charset = UTF-8' http-equiv = 'Content-Type' />
+      <style>
+        .digest-title {
+          margin: 2em;
+        }
+
+        .feed-content {
+          margin-left: 2em;
+          margin-right: auto;
+          word-wrap: break-word;
+        }
+      </style>
+   </head>
+   
+   <body>
+      <h1>Welcome to your daily news feed, <%= @user.first_name %></h1>
+
+      <% @digests.each do |digest| %>
+          <div class="digest-title">
+            <h2><%= digest.title %></h2>
+            <p><%= digest.description %></p>
+          </div>
+          <div class="feed-content">
+            <% digest.feeds&.each do |feed| %>
+              <h3><%= feed.title %></h3>
+              <h4><%= feed.url unless feed.feed_articles %></h4>
+              <div>
+                <% feed.feed_articles.order(pub_date: :desc).limit(5)&.each do |article| %>
+                  <div>
+                    <hr></hr>
+                    <div><%= article.title.html_safe %></div>
+                    <p><%= article.description.html_safe %></p>
+                    <a href="<%= article.link.html_safe %>" target="_blank"><%= %></a>
+                    <div><%=l article.pub_date, format: :long %></div>
+                  </div>  
+                <% end %>
+              </div>
+          <% end %>
+        </div>
+      <% end %>
+   </body>
+</html>

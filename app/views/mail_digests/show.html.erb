@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
-<div>
+<div class="digest-title">
   <h2><%= @mail_digest.title %></h2>
   <p><%= @mail_digest.description %></p>
 </div>
-<div>
+<div class="feed-content">
   <% @mail_digest.feeds&.each do |feed| %>
     <h3><%= feed.title %></h3>
     <h4><%= feed.url unless feed.feed_articles %></h4>

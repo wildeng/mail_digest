@@ -30,7 +30,7 @@ class MailDigestsController < ApplicationController
         @mail_digest.feeds.each do |feed|
           UpdateFeedsWorker.perform_async(feed.id)   
         end
-
+        MailDigestMailer.digest_update(current_user).deliver_later
         format.html { redirect_to @mail_digest, notice: "Mail digest was successfully created." }
         format.json { render :show, status: :created, location: @mail_digest }
       else
@@ -47,6 +47,7 @@ class MailDigestsController < ApplicationController
         @mail_digest.feeds.each do |feed|
           UpdateFeedsWorker.perform_async(feed.id)   
         end
+        MailDigestMailer.digest_update(current_user).deliver_later
         format.html { redirect_to @mail_digest, notice: "Mail digest was successfully updated." }
         format.json { render :show, status: :ok, location: @mail_digest }
       else

@@ -1,5 +1,6 @@
 // Place all the styles related to the mail_digests controller here.
 // They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
 body {
   font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
@@ -9,10 +10,10 @@ table {
   border-collapse: collapse;
   min-width: 100%;
   grid-template-columns: 
-    minmax(150px, 1fr)
-    minmax(150px, 1fr)
-    minmax(150px, 1fr)
-    minmax(150px, 1fr)
+    minmax(2em, 1fr)
+    minmax(0.5em, 1fr)
+    minmax(0.5em, 1fr)
+    minmax(0.5em, 1fr)
 }
 
 thead,
@@ -52,4 +53,18 @@ td {
 tr:nth-child(even) td {
   background: #f8f6ff;
 }
-// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+/* Element | http://localhost:3000/mail_digests/1 */
+
+.digest-title {
+  margin: 2em;
+}
+
+/* Element | http://localhost:3000/mail_digests/1 */
+
+.feed-content {
+  margin-left: 2em;
+  margin-right: auto;
+  word-wrap: break-word;
+}

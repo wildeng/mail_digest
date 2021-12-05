@@ -16,9 +16,18 @@
     <% @mail_digests.each do |mail_digest| %>
       <tr>
         <td><%= mail_digest.title %></td>
-        <td><%= link_to 'Show', mail_digest %></td>
-        <td><%= link_to 'Edit', edit_mail_digest_path(mail_digest) %></td>
-        <td><%= link_to 'Destroy', mail_digest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to mail_digest do %>
+            <i class="fas fa-eye"></i>
+          <% end %>
+        </td>
+        <td><%= link_to edit_mail_digest_path(mail_digest) do %>
+            <i class="fas fa-pen-square"></i>
+          <% end %>
+        </td>
+        <td><%= link_to mail_digest, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
