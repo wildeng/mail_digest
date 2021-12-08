@@ -1,6 +1,6 @@
 :schedule:
   UpdateMailDigest:
-    every: ['1d', first_in: '10s'] 
-    queue: low
+    # MIN HOUR Day of month Month Day of Week
+    cron: '0 6 * * * *'
     class: UpdateFeedsWorker
     description: "Updates all feeds daily at midnight"

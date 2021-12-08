@@ -5,19 +5,22 @@ require 'sidekiq-scheduler'
 class UpdateFeedsWorker
   include Sidekiq::Worker
 
-  def perform(feed_id)
+  def perform(feed_id = nil)
+    logger.info("feed id is #{feed_id}")
     if feed_id
       feed = Feed.find(feed_id)
       return unless feed
       update_feed(feed_id)
     else
+      logger.info("Looking for all the updatable feed")
       Feed.all.each do |feed|
-        update_feed(feed_id)
+        update_feed(feed.id)
       end
     end
   end
 
   def update_feed(feed_id)
+    logger.info("Trying to update a feed with id: #{feed_id}")
     feed = Feed.find(feed_id)
     return unless feed
     content = URI.open(feed.url).read
