@@ -1,0 +1,20 @@
+Welcome to your daily news feed, <%= @user.first_name %>
+==========================================================
+
+<% @digest.each do |digest| %>
+    <%= digest.title %>
+    <%= digest.description %>
+
+    <% digest.feeds&.each do |feed| %>
+      <%= feed.title %>
+      <%= feed.url unless feed.feed_articles %>
+
+      <% feed.feed_articles.order(pub_date: :desc).limit(5)&.each do |article| %>
+        <%= article.title %>
+
+        <%= article.description %>
+        <%= article.link %>
+        <%=l article.pub_date, format: :long %>
+      <% end %>
+    <% end %>
+<% end %>

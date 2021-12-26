@@ -1,0 +1,69 @@
+ARG RUBY_VERSION
+FROM ruby:$RUBY_VERSION
+
+ARG BUNDLER_VERSION
+ARG REDIS_URL
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
+ARG POSTGRES_DATABASE
+
+# set some env variables
+ENV REDIS_URL=${REDIS_URL}
+ENV PORT=${PORT}
+ENV POSTGRES_DATABASE=${POSTGRES_DATABASE}
+ENV POSTGRES_USER=${POSTGRES_USER}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+# The qq is for silent output in the console
+RUN apt-get update -qq && \
+  apt-get install -y build-essential openssl libssl-dev nodejs npm less vim libsasl2-dev
+RUN npm install --global yarn
+
+#RUN  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
+#  tee /etc/apt/sources.list.d/yarn.list &&\
+#  apt-get update -qq && apt-get install -y yarn
+
+# Sets the path where the app is going to be installed
+
+ENV WORK_ROOT /var
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES='true'
+ENV RAILS_LOG_TO_STDOUT='true'
+ENV RAILS_ROOT $WORK_ROOT/www/
+ENV LANG C.UTF-8
+ENV GEM_HOME $WORK_ROOT/bundle
+ENV BUNDLE_BIN $GEM_HOME/gems/bin
+ENV PATH $GEM_HOME/bin:$BUNDLE_BIN:$PATH
+
+RUN gem install bundler -v $BUNDLER_VERSION && \
+  mkdir -p $RAILS_ROOT && mkdir -p /var/www/tmp
+
+# This is given by the Ruby Image.
+# This will be the de-facto directory that
+# all the contents are going to be stored.
+RUN chown -R $uid:$gid $GEM_HOME &&\
+  bundle config --path=$GEM_HOME
+
+WORKDIR $RAILS_ROOT
+
+# We are copying the Gemfile first, so we can install
+# all the dependencies without any issues
+# Rails will be installed once you load it from the Gemfile
+# This will also ensure that gems are cached and onlu updated when
+# they change.
+ADD Gemfile ./
+ADD Gemfile.lock ./
+
+# Installs the Gem File.
+RUN bundle install
+
+# We copy all the files from the current directory to our
+# /app directory
+# Pay close attention to the dot (.)
+# The first one will select ALL The files of the current directory,
+# The second dot will copy it to the WORKDIR!
+ADD . $RAILS_ROOT
+CMD ["rails","server","-b","0.0.0.0"]
+RUN export RAILS_MASTER_KEY=`cat config/credentials/production.key`
+RUN bundle exec rails assets:precompile
+
