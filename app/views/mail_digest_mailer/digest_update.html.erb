@@ -1,5 +1,5 @@
 html>
-   
+
    <head>
       <meta content = 'text/html; charset = UTF-8' http-equiv = 'Content-Type' />
       <style>
@@ -14,7 +14,7 @@ html>
         }
       </style>
    </head>
-   
+
    <body>
       <h1>Welcome to your daily news feed, <%= @user.first_name %></h1>
 
@@ -31,11 +31,11 @@ html>
                 <% feed.feed_articles.order(pub_date: :desc).limit(5)&.each do |article| %>
                   <div>
                     <hr></hr>
-                    <div><%= article.title.html_safe %></div>
-                    <p><%= article.description.html_safe %></p>
-                    <a href="<%= article.link.html_safe %>" target="_blank"><%= %></a>
+                    <div><%= article.title.force_encoding('UTF-8').html_safe %></div>
+                    <p><%= article.description.force_encoding('UTF-8').html_safe %></p>
+                    <a href="<%= article.link.force_encoding('UTF-8').html_safe %>" target="_blank"><%= %></a>
                     <div><%=l article.pub_date, format: :long %></div>
-                  </div>  
+                  </div>
                 <% end %>
               </div>
           <% end %>

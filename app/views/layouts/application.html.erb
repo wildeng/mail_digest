@@ -11,8 +11,12 @@
   </head>
 
   <body>
+    <h1>Mail Digests</h1>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <%= yield.force_encoding(Encoding::UTF_8) %>
+    <% if current_user %>
+      <%= link_to 'Sign out', :destroy_user_session, method: :delete, data: {confirm: 'Are you sure?' }  %>
+    <% end %>
   </body>
 </html>

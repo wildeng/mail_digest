@@ -1,0 +1,136 @@
+version: '3.7'
+services:
+  rails: &rails
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile-dev
+      args:
+        RUBY_VERSION: '3.0.0'
+        BUNDLER_VERSION: '2.2.3'
+        uid: $uid
+        gid: $gid
+        PORT: $PORT
+    environment: &environment
+      REDIS_URL: $REDIS_URL
+      PORT: $PORT
+    ports:
+      - $PORT:$PORT
+
+  dev: &dev
+    <<: *rails
+    tty: true
+    stdin_open: true
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    user: $uid:$gid
+    working_dir: '/var/www'
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: ./
+        target: /var/www
+    ports:
+      - $PORT:$PORT
+    environment:
+      RAILS_ENV: "development"
+      DB_DEV_HOST: "db_dev"
+      REDIS_URL: $REDIS_URL  
+      POSTGRES_USER: $POSTGRES_USER
+    depends_on:
+      - db_dev
+      - redis
+      - sidekiq
+
+  prod: &prod
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile-prod
+      args:
+        RUBY_VERSION: '3.0.0'
+        BUNDLER_VERSION: '2.2.3'
+    environment:
+      RAILS_ENV: "production"
+      REDIS_URL: $REDIS_URL
+      PORT: $PORT
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DATABASE: $POSTGRES_DATABASE
+    command: rails server -e production 
+    working_dir: '/var/www'
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: ./
+        target: /var/www
+    ports:
+      - $PORT:$PORT
+    depends_on:
+      - db_prod
+      - redis
+      - sidekiq_prod
+
+  test: &test
+    <<: *dev
+    working_dir: '/var/www'
+    user: $uid:$gid
+    environment:
+      REDIS_URL: 'redis://redis:6379/0'
+      RAILS_ENV: "test"
+      CODECOV: 'true'
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+
+  sidekiq:
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile-dev
+    depends_on:
+      - 'db_dev'
+      - 'redis'
+    command: bundle exec sidekiq
+    volumes:
+      - type: bind
+        source: ./
+        target: /var/www
+    environment:
+      REDIS_URL_SIDEKIQ: $REDIS_URL 
+
+  sidekiq_prod:
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile-prod
+      args:
+        RUBY_VERSION: '3.0.0'
+        BUNDLER_VERSION: '2.2.3'
+    depends_on:
+      - 'db_prod'
+      - 'redis'
+    command: bundle exec sidekiq
+    volumes:
+      - type: bind
+        source: ./
+        target: /var/www
+    environment:
+      REDIS_URL_SIDEKIQ: $REDIS_URL 
+
+  db: &db
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+
+  db_prod:
+    <<: *db
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_DATABASE: $POSTGRES_DATABASE
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+  db_dev:
+    <<: *db
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_DATABASE: "maildigest_development"
+      POSTGRES_HOST_AUTH_METHOD: trust
