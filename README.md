@@ -5,7 +5,7 @@
 
 One of the things I was missing are ['RSS'](https://en.wikipedia.org/wiki/RSS) readers, so I decided to create a small web application that lets a user to create as many news digests as he wants that get delivered by email every day - hence the name, `Mail Digest`.
 The digests consume the chosen RSS feeds and get updated only if something new has been published.
-The digest can be read online by accessing the user's personal area.
+The digest can be read online by accessing the user's personal area. Before this, a user needs to register and verify the email. Once this process is completed, the user can access the personal area and start creating new digests.
 
 ##### Tech stack
 
@@ -15,7 +15,9 @@ It currently runs smoothly in development mode, but still needs some work to be 
 By default `Rails` is not sending emails while in development mode, but their structure can be clearly seen in the logs.
 The frontend is standard HTML/CSS with bits of StimulusJS.
 
-The RSS feed update is managed by background jobs running on `Sidekiq` and `Redis`
+The RSS feed update is managed by background jobs running on `Sidekiq` and `Redis`. Multiple feeds can be added to the personal digest (there's no limit). At each save, a background job - so to speak a piece of code executed on the server which is not blocking the UI - is enqueued into the `Redis` database. `Sidekiq` then loads the Rails environment and executes the code, updating the database with the latest articles for tha feed.  Once this is done, an email with the new content is sent to the user.  
+
+Login and authentication are managed using `Devise`, a popular Rails `engine` that has all the necessary feature such as: registration, password changes, forgotten passwords, token checks etc.
 
 ##### Running in development mode
 
