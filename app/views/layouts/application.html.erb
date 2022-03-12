@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <h1>Mail Digests</h1>
+    <h1><%= link_to 'Mail Digest', :mail_digests if current_user %></h1>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield.force_encoding(Encoding::UTF_8) %>
