@@ -47,5 +47,7 @@ class UpdateFeedsWorker
       end
       article.save
     end
+  rescue StandardError => e
+    logger.error("Something happenened while reading the fees with url: #{feed&.url}")
   end
 end
