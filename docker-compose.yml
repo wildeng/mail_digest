@@ -90,7 +90,7 @@ services:
     depends_on:
       - 'db_dev'
       - 'redis'
-    command: bundle exec sidekiq
+    command: bash -c "bundle install && bundle exec sidekiq"
     volumes:
       - type: bind
         source: ./

@@ -1,10 +1,11 @@
 class MailDigestsController < ApplicationController
+  include Pagy::Backend
   before_action :authenticate_user!
   before_action :set_mail_digest, only: %i[ show edit update destroy ]
 
   # GET /mail_digests or /mail_digests.json
   def index
-    @mail_digests = current_user.mail_digests
+    @pagy, @mail_digests = pagy(MailDigest.search(params[:q]).where(user_id: current_user.id).order(created_at: :desc))
   end
 
   # GET /mail_digests/1 or /mail_digests/1.json
