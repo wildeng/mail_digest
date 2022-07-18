@@ -1,0 +1,20 @@
+<% mail_digests.each do |mail_digest| %>
+  <div class="column">
+    <div class="card">
+      <h3><%= mail_digest.title %></h3>
+      <span><%= link_to mail_digest do %>
+          <i class="fas fa-eye"></i>
+        <% end %>
+      </span>
+      <span><%= link_to edit_mail_digest_path(mail_digest) do %>
+          <i class="fas fa-pen-square"></i>
+        <% end %>
+      </span>
+      <span<%= link_to mail_digest, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+      </span>
+    </div>
+  </div>
+<% end %>
+

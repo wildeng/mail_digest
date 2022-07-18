@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MailDigestMailer < ApplicationMailer
   default from: 'noreply@exasmple.com'
 

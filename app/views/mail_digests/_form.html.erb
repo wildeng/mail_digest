@@ -1,3 +1,4 @@
+<%= turbo_frame_tag 'digests' do %>
 <%= form_with(model: mail_digest, class: 'form-digest') do |form| %>
   <% if mail_digest.errors.any? %>
     <div id="error_explanation">
@@ -38,3 +39,4 @@
     <%= form.submit 'save', class: 'submit-form' %>
   </div>
 <% end %>
+<%end%>

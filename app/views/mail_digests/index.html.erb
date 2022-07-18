@@ -1,24 +1,14 @@
 <%= form_for mail_digests_path, method: :get, html: { data: { turbo_frame: 'digests', turbo_action: 'advance' } }  do |f| %>
   <%= search_field_tag :q, params[:q], placeholder: 'Search...' %>
 <% end %>
-<%= turbo_frame_tag 'digests' do %>
-<table>
-  <thead>
-    <tr>
-      <th> Name </th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-      <%= render 'digest_rows', mail_digests: @mail_digests %>
-      <%== pagy_nav(@pagy) %>
-  </tbody>
-</table>
-<% end %>
-
 <br>
+<%= turbo_frame_tag 'digests' do %>
 
+<div class="row">
+  <%= render 'digest_cards', mail_digests: @mail_digests %>
+</div>
+<br>
+<%== pagy_nav(@pagy) %>
+<% end %>
 <%= link_to 'New Mail Digest', new_mail_digest_path %>
+

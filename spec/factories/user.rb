@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/factories/user.rb
 
 require 'faker'
@@ -8,6 +10,6 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     password { 'Password123!' }
     password_confirmation { 'Password123!' }
-    # TODO insert the code to create a user
+    # TODO: insert the code to create a user
   end
 end

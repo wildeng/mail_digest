@@ -1,3 +1,4 @@
+<%= turbo_frame_tag 'digests' do %>
 <p id="notice"><%= notice %></p>
 <div class="digest-title">
   <h2><%= @mail_digest.title %></h2>
@@ -13,12 +14,15 @@
           <hr></hr>
           <div><%= article.title.force_encoding('UTF-8').html_safe if article.title %></div>
           <p><%= article.description.force_encoding('UTF-8').html_safe if article.description %></p>
-          <a href="<%= article.link.force_encoding('UTF-8').html_safe if article.link %>" target="_blank"><%= %></a>
+          <a href="<%= article.link.force_encoding('UTF-8').html_safe if article.link %>" target="_blank">
+            More...
+          </a>
           <div><%=l article.pub_date, format: :long if article.pub_date %></div>
         </div>
       <% end %>
     </div>
   <% end %>
 </div>
+<%end%>
 <%= link_to 'Edit', edit_mail_digest_path(@mail_digest) %> |
 <%= link_to 'Back', mail_digests_path %>

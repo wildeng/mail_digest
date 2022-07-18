@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :mail_digest do
     title { Faker::Book.title }
@@ -6,7 +8,7 @@ FactoryBot.define do
 
     factory :digest_with_feed do
       transient do
-        feed_count {3}
+        feed_count { 3 }
       end
 
       after(:create) do |mail_digest, evaluator|
@@ -16,7 +18,7 @@ FactoryBot.define do
 
     factory :digest_with_feed_no_url do
       transient do
-        feed_count {1}
+        feed_count { 1 }
       end
 
       after(:create) do |mail_digest, evaluator|

@@ -108,7 +108,7 @@ services:
     depends_on:
       - 'db_prod'
       - 'redis'
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -r ./workers/update_feeds_worker.rb
     volumes:
       - type: bind
         source: ./

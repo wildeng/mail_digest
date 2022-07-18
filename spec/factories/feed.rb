@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/factories/user.rb
 
 require 'faker'
