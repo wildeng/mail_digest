@@ -3,6 +3,28 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 body {
   font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  padding: 10px 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1 auto;
+  visibility: visible;
+  padding: 16px;
+}
+
+.sticky + .content {
+  padding-top: 102px;
 }
 
 table {
